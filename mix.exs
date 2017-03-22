@@ -28,6 +28,9 @@ defmodule Elixirtests.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      { :quixir, "~> 0.9", only: :test },
+      { :pollution, "~> 0.9" }
+    ]
   end
 end
