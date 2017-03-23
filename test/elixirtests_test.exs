@@ -30,9 +30,15 @@ defmodule ElixirtestsTest do
   end
 
   test "Trying things out" do
-    ptest [its: generate_its("whatever", 1, 3)], [trace: true] do
-      {_state, result} = do_its(its)
-      assert result
+    ptest [
+            min_it: int(min: 1, max: 10),
+            max_it: int(min: 10, max: 20),
+            text:   string()
+    ], trace: true, repeat_for: 5 do
+      generate_its(text, min_it, max_it)
+      |> Pollution.Generator.as_stream()
+      |> Enum.take(3)
+      |> IO.inspect
     end
   end
 
@@ -48,6 +54,10 @@ defmodule ElixirtestsTest do
     tuple(like: {
       value(:text),
       value(text),
+      value(:min),
+      value(min),
+      value(:max),
+      value(max),
       choose(from: generate_it_choice(min, max))})
   end
 
